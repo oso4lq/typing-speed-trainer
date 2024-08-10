@@ -5,11 +5,12 @@
 }
 
 .header {
-  margin: 30px 0;
   font-size: 40px;
+  margin: 30px 0;
 }
 
 .game-settings {
+  flex-wrap: wrap;
   background: var(--main-color);
   padding: 16px 32px;
   border-radius: 10px;
@@ -17,11 +18,14 @@
   margin-bottom: 20px;
 }
 
+.selector {
+  gap: 8px;
+}
 .select {
   gap: 8px;
 }
 
-.language__label {
+.gap-small {
   gap: 8px;
 }
 
@@ -79,41 +83,40 @@
 
 .text-display {
   font-size: 24px;
+  line-height: 48px;
   margin-bottom: 20px;
-  pointer-events: none; /* Restrict text copying */
   position: relative;
-}
-
-.input-field {
-  display: none;
-  /* color: transparent;
-  border: none;
-  position: absolute;
-  font-size: 24px;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
 }
 
 .select input[type="checkbox"],
-.select input[type="radio"] {
+.select input[type="radio"],
+.select select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   background: var(--second-color);
-  min-width: 60px;
+  width: 60px;
   height: 40px;
   border-radius: 10px;
-  padding: 12px;
+  padding: 10px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-right: 8px;
+  /* margin-right: 8px; */
   transition: all 0.3s ease;
   color: var(--white-color);
   font-weight: bold;
   font-size: 14px;
+}
+
+.select input[type="checkbox"] {
+  width: 100px;
 }
 
 .select input[type="checkbox"]:hover,
@@ -136,6 +139,37 @@
   font-size: 14px;
 }
 
+.select input[type="checkbox"]:disabled,
+.select input[type="radio"]:disabled,
+.select select:disabled {
+  background: grey;
+  cursor: not-allowed;
+  color: #ccc;
+}
+
+.select input[type="checkbox"]:disabled:hover,
+.select input[type="radio"]:disabled:hover,
+.select select:disabled:hover {
+  transform: none;
+  background: grey;
+}
+
+.select label input[type="checkbox"]:disabled::before,
+.select label input[type="radio"]:disabled::before {
+  color: #ccc;
+}
+
+.select select:disabled {
+  background: grey;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.select select:disabled:hover {
+  transform: none;
+  background: grey;
+}
+
 .select label {
   display: flex;
   align-items: center;
@@ -146,8 +180,9 @@
   margin-left: 8px;
 }
 
-.result-screen {
-
+.select select {
+  width: 100px;
+  text-align: center;
 }
 
 button {
@@ -168,7 +203,4 @@ button:hover {
 }
 
 @media (max-width: 600px) {
-  .result-screen {
-    font-size: 18px;
-  }
 }

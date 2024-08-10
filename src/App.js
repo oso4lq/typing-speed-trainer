@@ -229,73 +229,86 @@ const App = () => {
 
   return (
     <div className="w-100 flex-col app">
-      <h1 className="header">Typing Speed Trainer</h1>
 
+      <h1 className="header">Typing Speed Trainer</h1>
       {/* Game Setup section START*/}
       <div className="flex-row game-settings">
-        {/* Extra Symbols */}
-        {gameType !== 'quote' && (
-          <div className="flex-row select select__extraSymbols">
-            <label>
-              <input type="checkbox" value="punctuation" checked={includePunctuation} onChange={handlePunctuationChange} disabled={isGameStarted} />
-            </label>
-            <label>
-              <input type="checkbox" value="numbers" checked={includeNumbers} onChange={handleNumbersChange} disabled={isGameStarted} />
-            </label>
-          </div>
-        )}
 
         {/* Game Type */}
-        <div className="flex-row select select__gameType">
-          <label>
-            <input type="radio" value="time" checked={gameType === 'time'} onChange={handleGameTypeChange} disabled={isGameStarted} />
-          </label>
-          <label>
-            <input type="radio" value="words" checked={gameType === 'words'} onChange={handleGameTypeChange} disabled={isGameStarted} />
-          </label>
-          <label>
-            <input type="radio" value="quote" checked={gameType === 'quote'} onChange={handleGameTypeChange} disabled={isGameStarted} />
-          </label>
+        <div className='flex-col selector'>
+          <span>Game type:</span>
+          <div className="flex-row select select__gameType">
+            <label>
+              <input type="radio" value="time" checked={gameType === 'time'} onChange={handleGameTypeChange} disabled={isGameStarted} />
+            </label>
+            <label>
+              <input type="radio" value="words" checked={gameType === 'words'} onChange={handleGameTypeChange} disabled={isGameStarted} />
+            </label>
+            <label>
+              <input type="radio" value="quote" checked={gameType === 'quote'} onChange={handleGameTypeChange} disabled={isGameStarted} />
+            </label>
+          </div>
         </div>
 
         {/* Timer Duration - for 'time' mode */}
         {gameType === 'time' && (
-          <div className="flex-row select select__time">
-            <label>
-              <input type="radio" value={15} checked={gameTime === 15} onChange={handleTimeChange} disabled={isGameStarted} />
-            </label>
-            <label>
-              <input type="radio" value={30} checked={gameTime === 30} onChange={handleTimeChange} disabled={isGameStarted} />
-            </label>
-            <label>
-              <input type="radio" value={60} checked={gameTime === 60} onChange={handleTimeChange} disabled={isGameStarted} />
-            </label>
-            <label>
-              <input type="radio" value={120} checked={gameTime === 120} onChange={handleTimeChange} disabled={isGameStarted} />
-            </label>
+          <div className='flex-col selector'>
+            <span>Countdown timer:</span>
+            <div className="flex-row select select__time">
+              <label>
+                <input type="radio" value={15} checked={gameTime === 15} onChange={handleTimeChange} disabled={isGameStarted} />
+              </label>
+              <label>
+                <input type="radio" value={30} checked={gameTime === 30} onChange={handleTimeChange} disabled={isGameStarted} />
+              </label>
+              <label>
+                <input type="radio" value={60} checked={gameTime === 60} onChange={handleTimeChange} disabled={isGameStarted} />
+              </label>
+              <label>
+                <input type="radio" value={120} checked={gameTime === 120} onChange={handleTimeChange} disabled={isGameStarted} />
+              </label>
+            </div>
           </div>
         )}
 
         {/* Word Count - for 'words' mode */}
         {gameType === 'words' && (
-          <div className="flex-row select select_wordsNumber">
-            <label>
-              <input type="radio" value={10} checked={wordCount === 10} onChange={handleWordCountChange} disabled={isGameStarted} />
-            </label>
-            <label>
-              <input type="radio" value={25} checked={wordCount === 25} onChange={handleWordCountChange} disabled={isGameStarted} />
-            </label>
-            <label>
-              <input type="radio" value={50} checked={wordCount === 50} onChange={handleWordCountChange} disabled={isGameStarted} />
-            </label>
-            <label>
-              <input type="radio" value={100} checked={wordCount === 100} onChange={handleWordCountChange} disabled={isGameStarted} />
-            </label>
+          <div className='flex-col selector'>
+            <span>Word number:</span>
+            <div className="flex-row select select_wordsNumber">
+              <label>
+                <input type="radio" value={10} checked={wordCount === 10} onChange={handleWordCountChange} disabled={isGameStarted} />
+              </label>
+              <label>
+                <input type="radio" value={25} checked={wordCount === 25} onChange={handleWordCountChange} disabled={isGameStarted} />
+              </label>
+              <label>
+                <input type="radio" value={50} checked={wordCount === 50} onChange={handleWordCountChange} disabled={isGameStarted} />
+              </label>
+              <label>
+                <input type="radio" value={100} checked={wordCount === 100} onChange={handleWordCountChange} disabled={isGameStarted} />
+              </label>
+            </div>
+          </div>
+        )}
+
+        {/* Extra Symbols */}
+        {gameType !== 'quote' && (
+          <div className='flex-col selector'>
+            <span>Add extra symbols:</span>
+            <div className="flex-row select select__extraSymbols">
+              <label>
+                <input type="checkbox" value="punctuation" checked={includePunctuation} onChange={handlePunctuationChange} disabled={isGameStarted} />
+              </label>
+              <label>
+                <input type="checkbox" value="numbers" checked={includeNumbers} onChange={handleNumbersChange} disabled={isGameStarted} />
+              </label>
+            </div>
           </div>
         )}
 
         {/* Language Selection */}
-        <label className="flex-row select select__language">
+        <label className="flex-col select selector select__language">
           <span>Language:</span>
           <select value={language} onChange={handleLanguageChange} disabled={isGameStarted}>
             <option value="ENG">English</option>
@@ -303,6 +316,7 @@ const App = () => {
             <option value="RUS">Russian</option>
           </select>
         </label>
+
       </div>
       {/* Game Setup section END*/}
 
@@ -334,7 +348,7 @@ const App = () => {
         <div className="flex-col info-field">
           <span className='title'>Results</span>
 
-          <div className='flex-row'>
+          <div className='flex-row gap-small'>
             <span>WPM: {wpm}</span>
             <span>Errors: {errorCount}</span>
             {(gameType === 'words' || gameType === 'quote') && <span>Elapsed time: {elapsedTime}s</span>}
