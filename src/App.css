@@ -33,11 +33,8 @@
 .overlay {
   position: absolute;
   top: 70%;
-  /* left: 50%; */
-  /* transform: translate(-50%, -50%); */
   z-index: 10;
   font-size: 40px;
-  /* animation: pulse 1s infinite; */
 }
 
 .countdown {
@@ -61,40 +58,43 @@
 .game-field {
   height: 200px;
   padding: 0 20%;
-  overflow: auto;
   position: relative;
-}
-
-.game-field::-webkit-scrollbar {
-  display: none;
 }
 
 .backdrop {
   position: absolute;
-  width: 100%;
+  width: 60%;
   height: 100%;
-  backdrop-filter: blur(5px); /* Adjust the blur amount as needed */
-  -webkit-backdrop-filter: blur(5px); /* For Safari */
-  background-color: rgba(255, 255, 255, 0.3); /* Optional: to add some background to the div itself */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background-color: var(--white-color) 0.3;
   z-index: 5;
+}
+
+.textbox {
+  overflow: auto;
+}
+
+.textbox::-webkit-scrollbar {
+  display: none;
 }
 
 .text-display {
   font-size: 24px;
   margin-bottom: 20px;
-  /* white-space: pre-wrap; */
-  pointer-events: none;
+  pointer-events: none; /* Restrict text copying */
+  position: relative;
 }
 
 .input-field {
-  color: transparent;
+  display: none;
+  /* color: transparent;
   border: none;
   position: absolute;
   font-size: 24px;
-  padding: 10px;
   width: 100%;
-  height: inherit;
-  /* pointer-events: none; */
+  height: 100%;
+  pointer-events: none; */
 }
 
 .select input[type="checkbox"],
@@ -152,7 +152,6 @@
 
 }
 
-/* Additional button styles for better UI */
 button {
   background: var(--second-color);
   border: none;

@@ -28,6 +28,7 @@ const App = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [countdown, setCountdown] = useState(3);
   const [isCountdownComplete, setIsCountdownComplete] = useState(false);
+  const [keyListenerActive, setKeyListenerActive] = useState(false);
 
   // Get words or quotes based on selected language and game type
   const getWordsOrQuotes = () => {
@@ -52,12 +53,11 @@ const App = () => {
     }
   };
 
+  // Helper method to add extra symbols to the text
   const generateTextWithExtras = (words) => {
     if (gameType === 'quote') {
       return words.join(' '); // No extras for quotes
     }
-
-    console.log('generateTextWithExtras');
 
     return words.map((word) => {
       let result = word;
@@ -96,6 +96,7 @@ const App = () => {
     } else if (countdown === 0 && !isCountdownComplete) {
       setIsCountdownComplete(true);
       setStartTime(Date.now());
+      setKeyListenerActive(true);
       if (gameType === 'time') {
         setRemainingTime(gameTime);
       }
@@ -124,7 +125,6 @@ const App = () => {
   }, [isGameStarted, isCountdownComplete, gameType]);
 
   const handleStartGame = () => {
-    console.log('handleStartGame');
     setIsGameStarted(true);
     setIsGameComplete(false);
     setIsCountdownComplete(false);
@@ -133,7 +133,6 @@ const App = () => {
 
   const handleTimeChange = (e) => {
     if (!isGameStarted) {
-      console.log('handleTimeChange');
       setGameTime(Number(e.target.value));
       setRemainingTime(Number(e.target.value));
     }
@@ -141,33 +140,28 @@ const App = () => {
 
   const handleWordCountChange = (e) => {
     if (!isGameStarted) {
-      console.log('handleWordCountChange');
       setWordCount(Number(e.target.value));
     }
   };
 
   const handleLanguageChange = (e) => {
-    console.log('handleLanguageChange');
     setLanguage(e.target.value);
   };
 
   const handlePunctuationChange = () => {
     if (!isGameStarted) {
-      console.log('handlePunctuationChange');
       setIncludePunctuation(!includePunctuation);
     }
   };
 
   const handleNumbersChange = () => {
     if (!isGameStarted) {
-      console.log('handleNumbersChange');
       setIncludeNumbers(!includeNumbers);
     }
   };
 
   const handleGameTypeChange = (e) => {
     if (!isGameStarted) {
-      console.log('handleGameTypeChange');
       setGameType(e.target.value);
     }
   };
@@ -181,23 +175,17 @@ const App = () => {
   const handleGameEnd = () => {
     if (!isGameStarted) return;
 
-    console.log('handleGameEnd');
-
     const elapsedTime = (Date.now() - startTime) / 1000 / 60; // time in minutes
     const correctChars = userInput.split('').filter((char, index) => char === text[index]).length;
     const words = correctChars / 5;
     setWpm(Math.round(words / elapsedTime));
 
-    const errors = userInput.split('').filter((char, index) => char !== text[index]).length;
-    setErrorCount(errors);
-
     setIsGameComplete(true);
     setIsGameStarted(false);
+    setKeyListenerActive(false);
   };
 
   const handleReset = () => {
-    console.log('handleReset');
-
     setUserInput('');
     setStartTime(null);
     setWpm(0);
@@ -207,12 +195,44 @@ const App = () => {
     setRemainingTime(gameTime);
     setElapsedTime(0);
     setIsCountdownComplete(false);
+    setKeyListenerActive(false);
   };
+
+  // Key event listener
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (!isCountdownComplete || !isGameStarted) return;
+
+      const { key } = e;
+      const currentText = userInput + key;
+
+      if (key === 'Backspace') {
+        setUserInput(userInput.slice(0, -1));
+      } else if (key.length === 1) {
+        setUserInput(currentText);
+
+        if (currentText[userInput.length] !== text[userInput.length]) {
+          setErrorCount((prevCount) => prevCount + 1);
+        }
+      }
+    };
+
+    if (keyListenerActive) {
+      document.addEventListener('keydown', handleKeyPress);
+    } else {
+      document.removeEventListener('keydown', handleKeyPress);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [userInput, keyListenerActive, isGameStarted, isCountdownComplete, text]);
 
   return (
     <div className="w-100 flex-col app">
       <h1 className="header">Typing Speed Trainer</h1>
 
+      {/* Game Setup section START*/}
       <div className="flex-row game-settings">
         {/* Extra Symbols */}
         {gameType !== 'quote' && (
@@ -285,9 +305,9 @@ const App = () => {
           </select>
         </label>
       </div>
+      {/* Game Setup section END*/}
 
-      {/* Game Field Section */}
-
+      {/* Game Field Section START */}
       {/* game is not started */}
       {!isGameStarted && !isGameComplete && (
         <div className='flex-col info-field'>
@@ -310,7 +330,7 @@ const App = () => {
         </div>
       )}
 
-      {/* gave over */}
+      {/* game over */}
       {isGameComplete && (
         <div className="flex-col info-field">
           <span className='title'>Results</span>
@@ -335,9 +355,13 @@ const App = () => {
             )}
           </>
         )}
-        <TextDisplay text={text} userInput={userInput} />
-        <InputField userInput={userInput} setUserInput={setUserInput} handleStartTyping={() => { }} />
+        <div className='flex-col textbox'>
+          <TextDisplay text={text} userInput={userInput} />
+          <InputField userInput={userInput} setUserInput={setUserInput} handleStartTyping={() => { }} />
+        </div>
       </div>
+      {/* Game Field Section END */}
+
     </div>
   );
 };

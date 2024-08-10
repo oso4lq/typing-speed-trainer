@@ -7,7 +7,6 @@ const InputField = ({ userInput, setUserInput, handleStartTyping }) => {
     };
 
     return (
-        // <textarea
         <input
             type="text"
             value={userInput}
