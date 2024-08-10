@@ -57,14 +57,12 @@
 
 .game-field {
   height: 200px;
-  padding: 0 20%;
+  padding: 10px 10%;
   position: relative;
 }
 
 .backdrop {
   position: absolute;
-  width: 60%;
-  height: 100%;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   background-color: var(--white-color) 0.3;

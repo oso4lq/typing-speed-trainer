@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import TextDisplay from './components/TextDisplay';
-import InputField from './components/InputField';
 import wordsENG from './data/wordsENG.json';
 import wordsCZE from './data/wordsCZE.json';
 import wordsRUS from './data/wordsRUS.json';
@@ -11,7 +10,7 @@ import quotesRUS from './data/quotesRUS.json';
 const punctuationSymbols = ['!', '?', ',', '.', ':'];
 
 const App = () => {
-  const [userInput, setUserInput] = useState('');
+  const [userInputArray, setUserInputArray] = useState([]);
   const [text, setText] = useState('');
   const [startTime, setStartTime] = useState(null);
   const [wpm, setWpm] = useState(0);
@@ -167,16 +166,16 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (isGameStarted && userInput.length === text.length && (gameType === 'words' || gameType === 'quote')) {
+    if (isGameStarted && userInputArray.length === text.length && (gameType === 'words' || gameType === 'quote')) {
       handleGameEnd();
     }
-  }, [userInput, gameType]);
+  }, [userInputArray, gameType]);
 
   const handleGameEnd = () => {
     if (!isGameStarted) return;
 
     const elapsedTime = (Date.now() - startTime) / 1000 / 60; // time in minutes
-    const correctChars = userInput.split('').filter((char, index) => char === text[index]).length;
+    const correctChars = userInputArray.filter((char, index) => char === text[index]).length;
     const words = correctChars / 5;
     setWpm(Math.round(words / elapsedTime));
 
@@ -186,7 +185,7 @@ const App = () => {
   };
 
   const handleReset = () => {
-    setUserInput('');
+    setUserInputArray([]);
     setStartTime(null);
     setWpm(0);
     setErrorCount(0);
@@ -204,14 +203,14 @@ const App = () => {
       if (!isCountdownComplete || !isGameStarted) return;
 
       const { key } = e;
-      const currentText = userInput + key;
 
       if (key === 'Backspace') {
-        setUserInput(userInput.slice(0, -1));
+        setUserInputArray(userInputArray.slice(0, -1));
       } else if (key.length === 1) {
-        setUserInput(currentText);
+        const newInputArray = [...userInputArray, key];
+        setUserInputArray(newInputArray);
 
-        if (currentText[userInput.length] !== text[userInput.length]) {
+        if (newInputArray[newInputArray.length - 1] !== text[newInputArray.length - 1]) {
           setErrorCount((prevCount) => prevCount + 1);
         }
       }
@@ -226,7 +225,7 @@ const App = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [userInput, keyListenerActive, isGameStarted, isCountdownComplete, text]);
+  }, [userInputArray, keyListenerActive, isGameStarted, isCountdownComplete, text]);
 
   return (
     <div className="w-100 flex-col app">
@@ -349,15 +348,14 @@ const App = () => {
       <div className='flex-col w-100 game-field'>
         {(!isCountdownComplete || isGameComplete || !isGameStarted) && (
           <>
-            <div className='backdrop'></div>
+            <div className='w-100 h-100 backdrop'></div>
             {isGameStarted && (
               <div className='overlay countdown'>{countdown}</div>
             )}
           </>
         )}
         <div className='flex-col textbox'>
-          <TextDisplay text={text} userInput={userInput} />
-          <InputField userInput={userInput} setUserInput={setUserInput} handleStartTyping={() => { }} />
+          <TextDisplay text={text} userInput={userInputArray.join('')} />
         </div>
       </div>
       {/* Game Field Section END */}
