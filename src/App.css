@@ -28,6 +28,14 @@
   margin-right: 10px;
 }
 
+.language-selection {
+  margin-top: 10px;
+}
+
+.language-selection label {
+  margin-right: 10px;
+}
+
 @media (max-width: 600px) {
   .text-display {
     font-size: 18px;
