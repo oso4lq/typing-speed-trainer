@@ -1,6 +1,44 @@
 .app {
   text-align: center;
-  margin-top: 50px;
+  color: var(--white-color);
+}
+
+.title {
+  margin: 30px 0;
+  font-size: 40px;
+  /* color: var(--alert-color); */
+}
+
+.game-settings {
+  background: var(--main-color);
+  padding: 16px 32px;
+  border-radius: 10px;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.select {
+  gap: 8px;
+}
+
+.language__label {
+  gap: 8px;
+}
+
+.start-field {
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.game-field {
+  /* width: 600px; */
+  height: 200px;
+  padding: 0 20%;
+  overflow: auto;
+}
+
+.game-field::-webkit-scrollbar {
+  display: none;
 }
 
 .text-display {
@@ -10,41 +48,91 @@
 }
 
 .input-field {
+  color: transparent;
+  /* border-color: transparent; */
+  border: none;
+  position: absolute;
   font-size: 24px;
   padding: 10px;
   width: 100%;
-  max-width: 500px;
+  height: inherit;
+  /* pointer-events: none; */
 }
 
-.game-settings {
-  margin-bottom: 20px;
+.select input[type="checkbox"],
+.select input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: var(--second-color);
+  min-width: 60px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 12px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+  color: var(--white-color);
+  font-weight: bold;
+  font-size: 14px;
+  position: relative;
 }
 
-.time-selection {
-  margin-top: 10px;
+.select input[type="checkbox"]:hover,
+.select input[type="radio"]:hover {
+  transform: scale(1.05);
+  background: var(--select-color);
 }
 
-.time-selection label {
-  margin-right: 10px;
+.select input[type="checkbox"]:checked,
+.select input[type="radio"]:checked {
+  background: var(--select-color);
 }
 
-.language-selection {
-  margin-top: 10px;
+.select label input[type="checkbox"]::before,
+.select label input[type="radio"]::before {
+  content: attr(value);
+  position: absolute;
+  color: var(--white-color);
+  font-weight: bold;
+  font-size: 14px;
 }
 
-.language-selection label {
-  margin-right: 10px;
+.select label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.select label span {
+  margin-left: 8px;
+}
+
+.result-screen {
+
+}
+
+/* Additional button styles for better UI */
+button {
+  background: var(--second-color);
+  border: none;
+  border-radius: 10px;
+  color: var(--white-color);
+  padding: 12px 24px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: var(--select-color);
 }
 
 @media (max-width: 600px) {
-  .text-display {
-    font-size: 18px;
-  }
-
-  .input-field {
-    font-size: 18px;
-  }
-
   .result-screen {
     font-size: 18px;
   }

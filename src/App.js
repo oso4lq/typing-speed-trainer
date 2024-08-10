@@ -184,118 +184,104 @@ const App = () => {
 
   return (
     <div className="w-100 flex-col app">
-      <h1 className="flex-row">Typing Speed Trainer</h1>
+      <h1 className="title">Typing Speed Trainer</h1>
 
       <div className="flex-row game-settings">
         {/* Extra Symbols */}
         {gameType !== 'quote' && (
-          <div className="select select__extraSymbols">
+          <div className="flex-row select select__extraSymbols">
             <label>
-              <input type="checkbox" checked={includePunctuation} onChange={handlePunctuationChange} disabled={isStarted} />
-              punctuation
+              <input type="checkbox" value="punctuation" checked={includePunctuation} onChange={handlePunctuationChange} disabled={isStarted} />
             </label>
             <label>
-              <input type="checkbox" checked={includeNumbers} onChange={handleNumbersChange} disabled={isStarted} />
-              numbers
+              <input type="checkbox" value="numbers" checked={includeNumbers} onChange={handleNumbersChange} disabled={isStarted} />
             </label>
           </div>
         )}
 
         {/* Game Type */}
-        <div className="select select__gameType">
+        <div className="flex-row select select__gameType">
           <label>
             <input type="radio" value="time" checked={gameType === 'time'} onChange={handleGameTypeChange} disabled={isStarted} />
-            time
           </label>
           <label>
             <input type="radio" value="words" checked={gameType === 'words'} onChange={handleGameTypeChange} disabled={isStarted} />
-            words
           </label>
           <label>
             <input type="radio" value="quote" checked={gameType === 'quote'} onChange={handleGameTypeChange} disabled={isStarted} />
-            quote
           </label>
         </div>
 
         {/* Timer Duration - for 'time' mode */}
         {gameType === 'time' && (
-          <div className="select select__time">
+          <div className="flex-row select select__time">
             <label>
               <input type="radio" value={15} checked={gameTime === 15} onChange={handleTimeChange} disabled={isStarted} />
-              15
             </label>
             <label>
               <input type="radio" value={30} checked={gameTime === 30} onChange={handleTimeChange} disabled={isStarted} />
-              30
             </label>
             <label>
               <input type="radio" value={60} checked={gameTime === 60} onChange={handleTimeChange} disabled={isStarted} />
-              60
             </label>
             <label>
               <input type="radio" value={120} checked={gameTime === 120} onChange={handleTimeChange} disabled={isStarted} />
-              120
             </label>
           </div>
         )}
 
         {/* Word Count - for 'words' mode */}
         {gameType === 'words' && (
-          <div className="select select_wordsNumber">
+          <div className="flex-row select select_wordsNumber">
             <label>
               <input type="radio" value={10} checked={wordCount === 10} onChange={handleWordCountChange} disabled={isStarted} />
-              10
             </label>
             <label>
               <input type="radio" value={25} checked={wordCount === 25} onChange={handleWordCountChange} disabled={isStarted} />
-              25
             </label>
             <label>
               <input type="radio" value={50} checked={wordCount === 50} onChange={handleWordCountChange} disabled={isStarted} />
-              50
             </label>
             <label>
               <input type="radio" value={100} checked={wordCount === 100} onChange={handleWordCountChange} disabled={isStarted} />
-              100
             </label>
           </div>
         )}
 
         {/* Language Selection */}
-        <div className="select select__language">
-          <label>
-            Language:
-            <select value={language} onChange={handleLanguageChange} disabled={isStarted}>
-              <option value="ENG">English</option>
-              <option value="CZE">Czech</option>
-              <option value="RUS">Russian</option>
-            </select>
-          </label>
-        </div>
+        <label className="flex-row select select__language">
+          <span>Language:</span>
+          <select value={language} onChange={handleLanguageChange} disabled={isStarted}>
+            <option value="ENG">English</option>
+            <option value="CZE">Czech</option>
+            <option value="RUS">Russian</option>
+          </select>
+        </label>
       </div>
 
       {/* Game Field Section */}
-      <button onClick={handleStartGame} disabled={isStarted || isComplete}>Start</button>
-
       {!isStarted && !isComplete && (
-        <div className="countdown">Click Start to Begin</div>
+        <div className='flex-col start-field'>
+          <div className="countdown">Click start to begin</div>
+          <button onClick={handleStartGame} disabled={isStarted || isComplete}>Start</button>
+        </div>
       )}
 
-      {isStarted && !isComplete && (
-        <>
-          {gameType === 'time' && <div className="countdown">Time Remaining: {remainingTime}s</div>}
-          {(gameType === 'words' || gameType === 'quote') && <div className="countdown">Elapsed Time: {elapsedTime}s</div>}
-          <TextDisplay text={text} userInput={userInput} />
-          <InputField userInput={userInput} setUserInput={setUserInput} handleStartTyping={() => { }} />
-        </>
-      )}
+      {/* {isStarted && !isComplete && ( */}
+      {gameType === 'time' && <div className="countdown">Time Remaining: {remainingTime}s</div>}
+      {(gameType === 'words' || gameType === 'quote') && <div className="countdown">Elapsed time: {elapsedTime}s</div>}
+      <div className='flex-col w-100 game-field'>
+        <TextDisplay text={text} userInput={userInput} />
+        <InputField userInput={userInput} setUserInput={setUserInput} handleStartTyping={() => { }} />
+      </div>
+      {/* )} */}
 
       {isComplete && (
         <div className="w-100 flex-col result-screen">
           <h2>Results</h2>
           <span>WPM: {wpm}</span>
           <span>Errors: {errorCount}</span>
-          {(gameType === 'words' || gameType === 'quote') && <span>Time Taken: {elapsedTime}s</span>}
+          {(gameType === 'words' || gameType === 'quote') && <span>Elapsed time: {elapsedTime}s</span>}
           <button onClick={handleReset}>Restart</button>
         </div>
       )}

@@ -4,10 +4,10 @@ const InputField = ({ userInput, setUserInput, handleStartTyping }) => {
     const handleChange = (e) => {
         const { value } = e.target;
         setUserInput(value);
-        // handleStartTyping();
     };
 
     return (
+        // <textarea
         <input
             type="text"
             value={userInput}
