@@ -1,12 +1,12 @@
 .app {
   text-align: center;
   color: var(--white-color);
+  position: relative;
 }
 
-.title {
+.header {
   margin: 30px 0;
   font-size: 40px;
-  /* color: var(--alert-color); */
 }
 
 .game-settings {
@@ -25,31 +25,69 @@
   gap: 8px;
 }
 
-.start-field {
+.info-field {
   gap: 8px;
   margin-bottom: 20px;
 }
 
+.overlay {
+  position: absolute;
+  top: 70%;
+  /* left: 50%; */
+  /* transform: translate(-50%, -50%); */
+  z-index: 10;
+  font-size: 40px;
+  /* animation: pulse 1s infinite; */
+}
+
+.countdown {
+  font-size: 80px;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.title {
+  font-size: 28px;
+}
+
 .game-field {
-  /* width: 600px; */
   height: 200px;
   padding: 0 20%;
   overflow: auto;
+  position: relative;
 }
 
 .game-field::-webkit-scrollbar {
   display: none;
 }
 
+.backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px); /* Adjust the blur amount as needed */
+  -webkit-backdrop-filter: blur(5px); /* For Safari */
+  background-color: rgba(255, 255, 255, 0.3); /* Optional: to add some background to the div itself */
+  z-index: 5;
+}
+
 .text-display {
   font-size: 24px;
   margin-bottom: 20px;
-  white-space: pre-wrap;
+  /* white-space: pre-wrap; */
+  pointer-events: none;
 }
 
 .input-field {
   color: transparent;
-  /* border-color: transparent; */
   border: none;
   position: absolute;
   font-size: 24px;
@@ -78,7 +116,6 @@
   color: var(--white-color);
   font-weight: bold;
   font-size: 14px;
-  position: relative;
 }
 
 .select input[type="checkbox"]:hover,
@@ -123,6 +160,7 @@ button {
   color: var(--white-color);
   padding: 12px 24px;
   cursor: pointer;
+  font-size: 24px;
   font-weight: bold;
   transition: all 0.3s ease;
 }
