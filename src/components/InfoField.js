@@ -6,39 +6,50 @@ const InfoField = () => {
     const { isGameStarted, isGameComplete, gameType, remainingTime, elapsedTime, errorCount, wpm } = useSelector((state) => state.game);
 
     return (
-        <InfoContainer>
+        <WrapperCol>
             {!isGameStarted && !isGameComplete && (
-                <div>
-                    <span>Click start to begin</span>
+                <WrapperCol>
+                    <MainSpan>Click start to begin</MainSpan>
                     <span>The game will start in 3 seconds</span>
-                </div>
+                </WrapperCol>
             )}
             {isGameStarted && !isGameComplete && (
-                <div>
-                    {gameType === 'time' && <span>Time Remaining: {remainingTime}s</span>}
-                    {(gameType === 'words' || gameType === 'quote') && <span>Elapsed time: {elapsedTime}s</span>}
+                <WrapperCol>
+                    {gameType === 'time' && <MainSpan>Time Remaining: {remainingTime}s</MainSpan>}
+                    {(gameType === 'words' || gameType === 'quote') && <MainSpan>Elapsed time: {elapsedTime}s</MainSpan>}
                     <span>Errors: {errorCount}</span>
-                </div>
+                </WrapperCol>
             )}
             {isGameComplete && (
-                <div>
-                    <span>Results</span>
-                    <div>
+                <WrapperCol>
+                    <MainSpan>Results</MainSpan>
+                    <WrapperRow>
                         <span>WPM: {wpm}</span>
                         <span>Errors: {errorCount}</span>
                         {(gameType === 'words' || gameType === 'quote') && <span>Elapsed time: {elapsedTime}s</span>}
-                    </div>
-                </div>
+                    </WrapperRow>
+                </WrapperCol>
             )}
-        </InfoContainer>
+        </WrapperCol>
     );
 };
 
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
+const WrapperCol = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
 `;
+
+const WrapperRow = styled.span`
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 10px;
+`
+
+const MainSpan = styled.span`
+    font-size: 28px;
+`
 
 export default InfoField;

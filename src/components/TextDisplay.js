@@ -1,9 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 
 const TextDisplay = ({ text = '', userInput = '' }) => {
 
     return (
-        <div className="text-display">
+        <TextBox>
             {text.split('').map((char, index) => {
                 let style = {};
                 if (index < userInput.length) {
@@ -15,8 +16,20 @@ const TextDisplay = ({ text = '', userInput = '' }) => {
                     </span>
                 );
             })}
-        </div>
+        </TextBox>
     );
 };
+
+const TextBox = styled.div`
+    font-size: 24px;
+    line-height: 48px;
+    margin-bottom: 20px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+`;
 
 export default TextDisplay;

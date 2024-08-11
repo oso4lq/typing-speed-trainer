@@ -25,15 +25,20 @@ const StartButton = () => {
 };
 
 const Button = styled.button`
-  background: var(--second-color);
-  border: none;
-  border-radius: 10px;
-  color: var(--white-color);
-  padding: 12px 24px;
-  cursor: pointer;
-  font-size: 24px;
-  font-weight: bold;
-  transition: all 0.3s ease;
+    background: var(--second-color);
+    border: none;
+    border-radius: 10px;
+    color: var(--white-color);
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 20;
 `;
 
 export default StartButton;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import TextDisplay from './TextDisplay';
 import useTyping from '../hooks/useTyping';
 import { setRemainingTime, completeGame, updateElapsedTime, decrementCountdown, setCountdownComplete, setUserInputArray, incrementErrorCount } from '../slices/gameSlice';
+import StartButton from './StartButton';
 
 const GameField = () => {
     const dispatch = useDispatch();
@@ -106,6 +107,8 @@ const GameField = () => {
             {!isCountdownComplete && isGameStarted && (
                 <Countdown>{countdown}</Countdown>
             )}
+            <StartButton />
+            {/* <Backdrop /> */}
             <TextBox>
                 <TextDisplay text={text} userInput={userInputArray.join('')} />
             </TextBox>
@@ -114,21 +117,35 @@ const GameField = () => {
 };
 
 const FieldContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
+    height: 200px;
+    padding: 10px 10%;
+    position: relative;
 `;
 
 const Countdown = styled.div`
-  position: absolute;
-  z-index: 10;
-  font-size: 80px;
-  animation: pulse 1s ease-in-out infinite;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 20;
+    font-size: 80px;
+    animation: pulse 1s ease-in-out infinite;
 `;
 
 const TextBox = styled.div`
-  overflow: auto;
+    height: inherit;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
+
+const Backdrop = styled.div`
+    position: absolute;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    background-color: var(--white-color) 0.3;
+    z-index: 5;
+`
 
 export default GameField;
