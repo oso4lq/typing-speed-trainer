@@ -11,26 +11,27 @@ const App = () => {
   const { isGameStarted, isGameComplete } = useSelector((state) => state.game);
   const isMobile = useScreenWidth();
 
+  const renderMobileView = () => (
+    <>
+      {!isGameStarted && !isGameComplete && (
+        <>
+          <GameSettings />
+          <StartButton />
+        </>
+      )}
+      {(isGameStarted || isGameComplete) && (
+        <>
+          <InfoField />
+          <GameField />
+        </>
+      )}
+    </>
+  );
+
   return (
     <AppContainer>
       <Header>Typing Speed Trainer</Header>
-
-      {isMobile ? (
-        <>
-          {!isGameStarted && !isGameComplete && (
-            <>
-              <GameSettings />
-              <StartButton />
-            </>
-          )}
-          {(isGameStarted || isGameComplete) && (
-            <>
-              <InfoField />
-              <GameField />
-            </>
-          )}
-        </>
-      ) : (
+      {isMobile ? renderMobileView() : (
         <>
           <GameSettings />
           <InfoField />
@@ -49,24 +50,15 @@ const AppContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-
-  @media (max-width: 600px) {
-    .header {
-      font-size: 32px;
-    }
-  }
 `;
 
 const Header = styled.h1`
-    font-size: 40px;
-    margin: 30px 0;
+  font-size: 40px;
+  margin: 30px 0;
 
   @media (max-width: 600px) {
-    .header {
-      font-size: 32px;
-    }
+    font-size: 32px;
   }
-`
-
+`;
 
 export default App;

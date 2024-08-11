@@ -26,24 +26,16 @@ const GameField = () => {
 
     // Prevent scrolling with space key
     useEffect(() => {
-        const preventSpaceScroll = (e) => {
-            if (e.key === ' ') {
-                e.preventDefault();
-            }
-        };
-
+        const preventSpaceScroll = (e) => e.key === ' ' && e.preventDefault();
         window.addEventListener('keydown', preventSpaceScroll);
-
-        return () => {
-            window.removeEventListener('keydown', preventSpaceScroll);
-        };
+        return () => window.removeEventListener('keydown', preventSpaceScroll);
     }, []);
 
-    // Event listener for key presses
+    // Handle key presses
     useEffect(() => {
-        const handleKeyPress = (e) => {
-            if (!isCountdownComplete || !isGameStarted) return;
+        if (!isGameStarted || !isCountdownComplete) return;
 
+        const handleKeyPress = (e) => {
             const { key } = e;
 
             if (key === 'Backspace') {
@@ -52,64 +44,55 @@ const GameField = () => {
                 const newInputArray = [...userInputArray, key];
                 dispatch(setUserInputArray(newInputArray));
 
-                // Check if the typed character matches the corresponding character in the generated text
                 if (key !== text[newInputArray.length - 1]) {
                     dispatch(incrementErrorCount());
                 }
 
-                // Check if the user has completed typing all the words
                 if (newInputArray.length === text.length && (gameType === 'words' || gameType === 'quote')) {
                     dispatch(completeGame());
                 }
             }
         };
 
-        if (isGameStarted) {
-            window.addEventListener('keydown', handleKeyPress);
-        }
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyPress);
-        };
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
     }, [userInputArray, isGameStarted, isCountdownComplete, dispatch, text, gameType]);
 
+    // Countdown and game timers
     useEffect(() => {
-        if (isGameStarted && countdown > 0) {
+        if (!isGameStarted) return;
+
+        if (countdown > 0) {
             const timer = setTimeout(() => dispatch(decrementCountdown()), 1000);
             return () => clearTimeout(timer);
-        } else if (countdown === 0 && !isCountdownComplete) {
+        }
+
+        if (countdown === 0 && !isCountdownComplete) {
             dispatch(setCountdownComplete());
             if (gameType === 'time') {
                 dispatch(setRemainingTime(remainingTime));
             }
         }
-    }, [countdown, isGameStarted, isCountdownComplete, dispatch, remainingTime, gameType]);
 
-    useEffect(() => {
-        if (isCountdownComplete && isGameStarted && gameType === 'time' && remainingTime > 0) {
+        if (isCountdownComplete && gameType === 'time' && remainingTime > 0) {
             const timer = setTimeout(() => dispatch(setRemainingTime(remainingTime - 1)), 1000);
             return () => clearTimeout(timer);
-        } else if (isCountdownComplete && isGameStarted && gameType === 'time' && remainingTime === 0) {
+        }
+
+        if (isCountdownComplete && gameType === 'time' && remainingTime === 0) {
             dispatch(completeGame());
         }
-    }, [remainingTime, isGameStarted, isCountdownComplete, gameType, dispatch]);
 
-    useEffect(() => {
-        let timer;
-        if (isCountdownComplete && isGameStarted && (gameType === 'words' || gameType === 'quote')) {
-            timer = setInterval(() => {
-                dispatch(updateElapsedTime());
-            }, 1000);
+        if (isCountdownComplete && (gameType === 'words' || gameType === 'quote')) {
+            const timer = setInterval(() => dispatch(updateElapsedTime()), 1000);
+            return () => clearInterval(timer);
         }
-        return () => clearInterval(timer);
-    }, [isGameStarted, isCountdownComplete, gameType, dispatch]);
+    }, [countdown, isGameStarted, isCountdownComplete, remainingTime, gameType, dispatch]);
 
     return (
         <FieldContainer>
             <Backdrop />
-            {!isCountdownComplete && isGameStarted && (
-                <Countdown>{countdown}</Countdown>
-            )}
+            {!isCountdownComplete && isGameStarted && <Countdown>{countdown}</Countdown>}
             <StartButton />
             <TextBox>
                 <TextDisplay text={text} userInput={userInputArray.join('')} />

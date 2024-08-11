@@ -7,59 +7,100 @@ const GameSettings = () => {
     const dispatch = useDispatch();
     const { gameType, gameTime, wordCount, includePunctuation, includeNumbers, language, isGameStarted } = useSelector((state) => state.game);
 
+    const generateRadioInput = (options, value, onChange) =>
+        options.map((option) => (
+            <StyledInput
+                key={option.value}
+                type="radio"
+                value={option.value}
+                checked={value === option.value}
+                onChange={() => dispatch(onChange(option.value))}
+                disabled={isGameStarted}
+            />
+        ));
+
     return (
         <SettingsContainer>
-            {/* Game Type */}
             <Selector>
                 <span>Game type:</span>
                 <Wrapper>
-                    <StyledInput type="radio" value="time" checked={gameType === 'time'} onChange={() => dispatch(setGameType('time'))} disabled={isGameStarted} />
-                    <StyledInput type="radio" value="words" checked={gameType === 'words'} onChange={() => dispatch(setGameType('words'))} disabled={isGameStarted} />
-                    <StyledInput type="radio" value="quote" checked={gameType === 'quote'} onChange={() => dispatch(setGameType('quote'))} disabled={isGameStarted} />
+                    {generateRadioInput(
+                        [
+                            { value: 'time' },
+                            { value: 'words' },
+                            { value: 'quote' },
+                        ],
+                        gameType,
+                        setGameType
+                    )}
                 </Wrapper>
             </Selector>
 
-            {/* Timer Duration */}
             {gameType === 'time' && (
                 <Selector>
                     <span>Countdown timer:</span>
                     <Wrapper>
-                        <StyledInput type="radio" value={15} checked={gameTime === 15} onChange={() => dispatch(setGameTime(15))} disabled={isGameStarted} />
-                        <StyledInput type="radio" value={30} checked={gameTime === 30} onChange={() => dispatch(setGameTime(30))} disabled={isGameStarted} />
-                        <StyledInput type="radio" value={60} checked={gameTime === 60} onChange={() => dispatch(setGameTime(60))} disabled={isGameStarted} />
-                        <StyledInput type="radio" value={120} checked={gameTime === 120} onChange={() => dispatch(setGameTime(120))} disabled={isGameStarted} />
+                        {generateRadioInput(
+                            [
+                                { value: 15 },
+                                { value: 30 },
+                                { value: 60 },
+                                { value: 120 },
+                            ],
+                            gameTime,
+                            setGameTime
+                        )}
                     </Wrapper>
                 </Selector>
             )}
 
-            {/* Word Count */}
             {gameType === 'words' && (
                 <Selector>
                     <span>Word number:</span>
                     <Wrapper>
-                        <StyledInput type="radio" value={10} checked={wordCount === 10} onChange={() => dispatch(setWordCount(10))} disabled={isGameStarted} />
-                        <StyledInput type="radio" value={25} checked={wordCount === 25} onChange={() => dispatch(setWordCount(25))} disabled={isGameStarted} />
-                        <StyledInput type="radio" value={50} checked={wordCount === 50} onChange={() => dispatch(setGameType('words'))} disabled={isGameStarted} />
-                        <StyledInput type="radio" value={100} checked={wordCount === 100} onChange={() => dispatch(setWordCount(100))} disabled={isGameStarted} />
+                        {generateRadioInput(
+                            [
+                                { value: 10 },
+                                { value: 25 },
+                                { value: 50 },
+                                { value: 100 },
+                            ],
+                            wordCount,
+                            setWordCount
+                        )}
                     </Wrapper>
                 </Selector>
             )}
 
-            {/* Extra Symbols */}
             {gameType !== 'quote' && (
                 <Selector>
                     <span>Add extra symbols:</span>
                     <Wrapper>
-                        <StyledInput type="checkbox" value={'punctuation'} checked={includePunctuation} onChange={() => dispatch(setIncludePunctuation(!includePunctuation))} disabled={isGameStarted} />
-                        <StyledInput type="checkbox" value={'numbers'} checked={includeNumbers} onChange={() => dispatch(setIncludeNumbers(!includeNumbers))} disabled={isGameStarted} />
+                        <StyledInput
+                            type="checkbox"
+                            value="punctuation"
+                            checked={includePunctuation}
+                            onChange={() => dispatch(setIncludePunctuation(!includePunctuation))}
+                            disabled={isGameStarted}
+                        />
+                        <StyledInput
+                            type="checkbox"
+                            value="numbers"
+                            checked={includeNumbers}
+                            onChange={() => dispatch(setIncludeNumbers(!includeNumbers))}
+                            disabled={isGameStarted}
+                        />
                     </Wrapper>
                 </Selector>
             )}
 
-            {/* Language Selection */}
             <Selector>
                 <span>Language:</span>
-                <StyledSelect value={language} onChange={(e) => dispatch(setLanguage(e.target.value))} disabled={isGameStarted}>
+                <StyledSelect
+                    value={language}
+                    onChange={(e) => dispatch(setLanguage(e.target.value))}
+                    disabled={isGameStarted}
+                >
                     <option value="ENG">English</option>
                     <option value="RUS">Русский</option>
                     <option value="CZE">Český</option>
@@ -102,8 +143,6 @@ const Wrapper = styled.div`
 
 const StyledInput = styled.input`
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   background: var(--second-color);
   width: ${({ type }) => (type === 'checkbox' ? '100px' : '60px')};
   height: 40px;
