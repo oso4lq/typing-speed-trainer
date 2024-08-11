@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const InfoField = () => {
     const { isGameStarted, isGameComplete, gameType, remainingTime, elapsedTime, errorCount, wpm } = useSelector((state) => state.game);

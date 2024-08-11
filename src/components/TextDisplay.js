@@ -30,6 +30,11 @@ const TextBox = styled.div`
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
+
+    @media (max-width: 600px) {
+        font-size: 20px;
+        line-height: 32px;
+    }
 `;
 
 export default TextDisplay;

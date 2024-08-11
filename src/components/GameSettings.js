@@ -1,7 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { setGameType, setGameTime, setWordCount, setIncludePunctuation, setIncludeNumbers, setLanguage } from '../slices/gameSlice';
-import styled from 'styled-components';
 
 const GameSettings = () => {
     const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const GameSettings = () => {
                     <Wrapper>
                         <StyledInput type="radio" value={10} checked={wordCount === 10} onChange={() => dispatch(setWordCount(10))} disabled={isGameStarted} />
                         <StyledInput type="radio" value={25} checked={wordCount === 25} onChange={() => dispatch(setWordCount(25))} disabled={isGameStarted} />
-                        <StyledInput type="radio" value={50} checked={wordCount === 50} onChange={() => dispatch(setWordCount(50))} disabled={isGameStarted} />
+                        <StyledInput type="radio" value={50} checked={wordCount === 50} onChange={() => dispatch(setGameType('words'))} disabled={isGameStarted} />
                         <StyledInput type="radio" value={100} checked={wordCount === 100} onChange={() => dispatch(setWordCount(100))} disabled={isGameStarted} />
                     </Wrapper>
                 </Selector>
@@ -70,44 +70,52 @@ const GameSettings = () => {
 };
 
 const SettingsContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    background: var(--main-color);
-    padding: 16px 32px;
-    border-radius: 10px;
-    gap: 16px;
-    margin-bottom: 20px;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--main-color);
+  padding: 16px 32px;
+  border-radius: 10px;
+  gap: 16px;
+  margin: 0 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+
+  @media (max-width: 600px) {
+    border-radius: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Selector = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+`;
 
 const StyledInput = styled.input`
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: var(--second-color);
-    width: ${({ type }) => (type === 'checkbox' ? '100px' : '60px')};
-    height: 40px;
-    border-radius: 10px;
-    padding: 10px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: var(--white-color);
-    font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: var(--second-color);
+  width: ${({ type }) => (type === 'checkbox' ? '100px' : '60px')};
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--white-color);
+  font-size: 14px;
 
   &::before {
     content: attr(value);

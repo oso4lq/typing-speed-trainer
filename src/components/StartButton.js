@@ -1,7 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { startGame, resetGame } from '../slices/gameSlice';
-import styled from 'styled-components';
 
 const StartButton = () => {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const StartButton = () => {
 
     return (
         !isGameStarted && (
-            <Button onClick={handleClick}>
+            <Button isRestart={isGameComplete} onClick={handleClick}>
                 {isGameComplete ? 'RESTART' : 'START'}
             </Button>
         )
@@ -38,6 +38,15 @@ const Button = styled.button`
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 20;
+
+    ${({ isRestart }) =>
+        !isRestart &&
+        `
+        @media (max-width: 600px) {
+            position: unset;
+            transform: none;
+        }
+    `}
 `;
 
 export default StartButton;

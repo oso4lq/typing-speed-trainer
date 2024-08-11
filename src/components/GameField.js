@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import TextDisplay from './TextDisplay';
+import { useSelector, useDispatch } from 'react-redux';
 import useTyping from '../hooks/useTyping';
-import { setRemainingTime, completeGame, updateElapsedTime, decrementCountdown, setCountdownComplete, setUserInputArray, incrementErrorCount } from '../slices/gameSlice';
+import {
+    setRemainingTime, completeGame, updateElapsedTime, decrementCountdown,
+    setCountdownComplete, setUserInputArray, incrementErrorCount
+} from '../slices/gameSlice';
+import TextDisplay from './TextDisplay';
 import StartButton from './StartButton';
 import Backdrop from './Backdrop';
 
@@ -131,6 +134,7 @@ const Countdown = styled.div`
 `;
 
 const TextBox = styled.div`
+    padding: 8px 0;
     height: inherit;
     overflow: auto;
 
