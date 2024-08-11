@@ -13,7 +13,7 @@ The interface is clean and user-friendly. The design ensures that the main featu
 - **Restart**: After completing a game, users can restart the challenge with a new set of words or quotes.
 
 ## Demonstration
-![Alt Text]([URL_of_the_GIF](https://github.com/oso4lq/typing-speed-trainer/blob/master/typing%20speed%20gif.gif))
+![](https://github.com/oso4lq/typing-speed-trainer/blob/master/typing%20speed%20gif.gif))
 
 ## Available Scripts
 
