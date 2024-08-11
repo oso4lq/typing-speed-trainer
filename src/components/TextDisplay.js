@@ -1,6 +1,7 @@
 import React from 'react';
 
-const TextDisplay = ({ text, userInput }) => {
+const TextDisplay = ({ text = '', userInput = '' }) => {
+
     return (
         <div className="text-display">
             {text.split('').map((char, index) => {
