@@ -1,6 +1,7 @@
 # Typing Speed Trainer
 
-This Typing Speed Trainer app allows users to practice their typing speed and accuracy in various modes. The app provides several customization options to suit different typing practices.
+This Typing Speed Trainer app allows users to practice their typing speed and accuracy in various modes. The app provides several customization options to suit different typing practices. The application is built using React, Redux, and CSS-in-JS (Styled-components). Time taken to create the project: 15 hours.
+The interface is clean and user-friendly. The design ensures that the main features (start button, text input, and statistics) are easily accessible.
 
 ## Features
 
@@ -9,7 +10,10 @@ This Typing Speed Trainer app allows users to practice their typing speed and ac
 - **Real-time Feedback**: Get instant feedback on your typing accuracy, with a count of errors and the ability to track your words per minute (WPM).
 - **Responsive Design**: The app is fully responsive, with an optimized layout for both desktop and mobile devices.
 - **Countdown Timer**: A countdown timer starts the game, giving users a brief moment to prepare.
-- **Restart Option**: After completing a game, users can restart the challenge with a new set of words or quotes.
+- **Restart**: After completing a game, users can restart the challenge with a new set of words or quotes.
+
+## Demonstration
+![Alt Text]([URL_of_the_GIF](https://github.com/oso4lq/typing-speed-trainer/blob/master/typing%20speed%20gif.gif))
 
 ## Available Scripts
 
