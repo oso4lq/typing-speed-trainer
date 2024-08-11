@@ -1,7 +1,8 @@
 # Typing Speed Trainer
 
 This Typing Speed Trainer app allows users to practice their typing speed and accuracy in various modes. The app provides several customization options to suit different typing practices. The application is built using React, Redux, and CSS-in-JS (Styled-components). Time taken to create the project: 15 hours.
-The interface is clean and user-friendly. The design ensures that the main features (start button, text input, and statistics) are easily accessible.
+
+The interface is clean and user-friendly.
 
 ## Features
 
