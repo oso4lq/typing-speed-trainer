@@ -34,10 +34,9 @@ const Button = styled.button`
     font-size: 24px;
     font-weight: bold;
     transition: all 0.3s ease;
-    
     position: absolute;
-    left: 50%;
     top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 20;
 `;
 

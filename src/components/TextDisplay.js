@@ -23,7 +23,7 @@ const TextDisplay = ({ text = '', userInput = '' }) => {
 const TextBox = styled.div`
     font-size: 24px;
     line-height: 48px;
-    margin-bottom: 20px;
+    margin: 0 10%;
     position: relative;
     user-select: none;
     -webkit-user-select: none;

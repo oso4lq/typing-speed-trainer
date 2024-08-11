@@ -18,6 +18,7 @@ const initialState = {
     isCountdownComplete: false,
     userInputArray: [],
     text: '',
+    startTime: null,
 };
 
 const gameSlice = createSlice({
@@ -48,8 +49,14 @@ const gameSlice = createSlice({
             state.isGameComplete = false;
             state.countdown = 3;
             state.isCountdownComplete = false;
+            state.startTime = Date.now(); // Record start time when the game starts
         },
         completeGame: (state) => {
+            const elapsedTime = (Date.now() - state.startTime) / 1000 / 60;
+            const correctChars = state.userInputArray.filter((char, index) => char === state.text[index]).length;
+            const words = correctChars / 5;
+            state.wpm = Math.round(words / elapsedTime);
+
             state.isGameComplete = true;
             state.isGameStarted = false;
         },
@@ -62,6 +69,7 @@ const gameSlice = createSlice({
             state.elapsedTime = 0;
             state.userInputArray = [];
             state.errorCount = 0;
+            state.wpm = 0;
             const newText = generateTextWithExtras(getWordsOrQuotes(state));
             state.text = newText;
         },

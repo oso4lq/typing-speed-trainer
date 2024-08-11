@@ -5,6 +5,7 @@ import TextDisplay from './TextDisplay';
 import useTyping from '../hooks/useTyping';
 import { setRemainingTime, completeGame, updateElapsedTime, decrementCountdown, setCountdownComplete, setUserInputArray, incrementErrorCount } from '../slices/gameSlice';
 import StartButton from './StartButton';
+import Backdrop from './Backdrop';
 
 const GameField = () => {
     const dispatch = useDispatch();
@@ -12,14 +13,12 @@ const GameField = () => {
 
     const {
         isCountdownComplete,
-        isGameComplete,
         isGameStarted,
         countdown,
         text,
         userInputArray = [],
         remainingTime,
         gameType,
-        elapsedTime,
     } = useSelector((state) => state.game);
 
     // Prevent scrolling with space key
@@ -56,7 +55,7 @@ const GameField = () => {
                 }
 
                 // Check if the user has completed typing all the words
-                if (newInputArray.length === text.length && gameType === 'words') {
+                if (newInputArray.length === text.length && (gameType === 'words' || gameType === 'quote')) {
                     dispatch(completeGame());
                 }
             }
@@ -104,11 +103,11 @@ const GameField = () => {
 
     return (
         <FieldContainer>
+            <Backdrop />
             {!isCountdownComplete && isGameStarted && (
                 <Countdown>{countdown}</Countdown>
             )}
             <StartButton />
-            {/* <Backdrop /> */}
             <TextBox>
                 <TextDisplay text={text} userInput={userInputArray.join('')} />
             </TextBox>
@@ -118,7 +117,6 @@ const GameField = () => {
 
 const FieldContainer = styled.div`
     height: 200px;
-    padding: 10px 10%;
     position: relative;
 `;
 
@@ -126,6 +124,7 @@ const Countdown = styled.div`
     position: absolute;
     left: 50%;
     top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 20;
     font-size: 80px;
     animation: pulse 1s ease-in-out infinite;
@@ -139,13 +138,5 @@ const TextBox = styled.div`
         display: none;
     }
 `;
-
-const Backdrop = styled.div`
-    position: absolute;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    background-color: var(--white-color) 0.3;
-    z-index: 5;
-`
 
 export default GameField;
