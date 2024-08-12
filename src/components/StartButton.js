@@ -17,14 +17,16 @@ const StartButton = () => {
 
     return (
         !isGameStarted && (
-            <Button isRestart={isGameComplete} onClick={handleClick}>
+            <StyledButton restart={isGameComplete} onClick={handleClick}>
                 {isGameComplete ? 'RESTART' : 'START'}
-            </Button>
+            </StyledButton>
         )
     );
 };
 
-const Button = styled.button`
+const StyledButton = styled.button.withConfig({
+    shouldForwardProp: (prop) => prop !== 'restart',
+})`
     background: var(--second-color);
     border: none;
     border-radius: 10px;
@@ -39,8 +41,8 @@ const Button = styled.button`
     transform: translate(-50%, -50%);
     z-index: 20;
 
-    ${({ isRestart }) =>
-        !isRestart &&
+    ${({ restart }) =>
+        !restart &&
         `
         @media (max-width: 600px) {
             position: unset;

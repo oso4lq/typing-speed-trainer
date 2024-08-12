@@ -70,7 +70,14 @@ const gameSlice = createSlice({
             state.userInputArray = [];
             state.errorCount = 0;
             state.wpm = 0;
-            const newText = generateTextWithExtras(getWordsOrQuotes(state));
+
+            // Generate new text based on the current game type and settings
+            const wordsArray = Array.from({ length: state.gameType === 'time' ? 200 : state.wordCount }, () =>
+                getWordsOrQuotes({ language: state.language, gameType: state.gameType })[
+                Math.floor(Math.random() * getWordsOrQuotes({ language: state.language, gameType: state.gameType }).length)
+                ]
+            );
+            const newText = generateTextWithExtras(wordsArray, state.includePunctuation, state.includeNumbers, state.gameType);
             state.text = newText;
         },
         incrementErrorCount: (state) => {
